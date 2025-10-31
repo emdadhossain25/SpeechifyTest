@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -28,7 +27,8 @@ import androidx.compose.ui.unit.sp
 fun RecordingScreenContent(
     recordingScreenUIState: RecordingScreenUIState,
     startRecording: () -> Unit,
-    stopRecording: () -> Unit
+    stopRecording: () -> Unit,
+    onDismissError: () -> Unit
 
 ) {
     Box(
@@ -53,7 +53,9 @@ fun RecordingScreenContent(
             )
             when (recordingScreenUIState) {
                 is RecordingScreenUIState.Error -> {
-                    ErrorState(message = recordingScreenUIState.message)
+                    ErrorState(message = recordingScreenUIState.message,
+                        onDismiss = onDismissError,
+                        onRetry = startRecording)
                 }
 
                 RecordingScreenUIState.Idle -> {
@@ -130,7 +132,11 @@ fun RecordingState(seconds: Int, onStopeRecording: () -> Unit) {
 }
 
 @Composable
-fun ErrorState(message: String) {
+fun ErrorState(
+    message: String,
+    onDismiss: () -> Unit,
+    onRetry: () -> Unit
+) {
     Text(
         text = "Error : $message",
         fontSize = 16.sp,
@@ -152,7 +158,8 @@ private fun RecordingStatePreview() {
     RecordingScreenContent(
         recordingScreenUIState = RecordingScreenUIState.Recording(seconds = 12334),
         startRecording = {},
-        stopRecording = {}
+        stopRecording = {},
+        onDismissError = {}
     )
 }
 
@@ -162,7 +169,8 @@ private fun IdleStatePreview() {
     RecordingScreenContent(
         recordingScreenUIState = RecordingScreenUIState.Idle,
         startRecording = {},
-        stopRecording = {}
+        stopRecording = {},
+        onDismissError = {}
     )
 }
 
@@ -173,6 +181,7 @@ private fun ErrorStatePreview() {
     RecordingScreenContent(
         recordingScreenUIState = RecordingScreenUIState.Error(message = "preview for error"),
         startRecording = {},
-        stopRecording = {}
+        stopRecording = {},
+        onDismissError = {}
     )
 }

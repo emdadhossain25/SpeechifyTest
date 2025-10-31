@@ -2,6 +2,8 @@ package com.example.speechifytest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.speechifytest.data.IRecordingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -13,37 +15,58 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScreenRecordingViewModel @Inject constructor(
-
+    val repository: IRecordingRepository
 ) : ViewModel() {
     val _recordingScreenUIState: MutableStateFlow<RecordingScreenUIState> =
         MutableStateFlow(RecordingScreenUIState.Idle)
     var recordingScreenUIState = _recordingScreenUIState.asStateFlow()
 
-    private var timerJob: Job? = null
+    private var durationJob: Job? = null
 
     fun startRecording() {
-        timerJob?.cancel()
-        timerJob = viewModelScope.launch {
-            var seconds = 0
-            while (true) {
-                _recordingScreenUIState.value = RecordingScreenUIState.Recording(seconds)
-                delay(1000L);
-                seconds++
+        viewModelScope.launch {
+            val result = repository.startRecording()
+
+            result.onSuccess {
+                durationJob?.cancel()
+                durationJob = viewModelScope.launch {
+                    repository.getRecording().collect { seconds ->
+                        _recordingScreenUIState.value = RecordingScreenUIState.Recording(seconds)
+                    }
+
+                }
+            }.onFailure { error ->
+                _recordingScreenUIState.value = RecordingScreenUIState.Error(
+                    message = error.message ?: "Failed to start recording"
+                )
             }
-
-
         }
+
     }
 
     fun stopRecording() {
-        timerJob?.cancel()
-        _recordingScreenUIState.value = RecordingScreenUIState.Idle
+        viewModelScope.launch {
+            durationJob?.cancel()
+            repository.stopRecording()
+            _recordingScreenUIState.value = RecordingScreenUIState.Idle
+        }
     }
 
 
     override fun onCleared() {
         super.onCleared()
-        timerJob?.cancel()
+        durationJob?.cancel()
+    }
+
+    fun showPermissionDeniedError() {
+        _recordingScreenUIState.value =
+            RecordingScreenUIState.Error("Microphone permission is required to record audio. " + "Please grant permission in Settings.")
+    }
+
+    fun dismissError() {
+        if (_recordingScreenUIState.value is RecordingScreenUIState.Error) {
+            _recordingScreenUIState.value = RecordingScreenUIState.Idle
+        }
     }
 
 

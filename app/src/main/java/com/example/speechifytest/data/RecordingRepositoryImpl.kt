@@ -49,7 +49,7 @@ class RecordingRepositoryImpl @Inject constructor(
 
     override fun getRecording(): Flow<Int> = flow {
         var seconds = 0
-        if (isRecording) {
+        while (isRecording) {
             emit(seconds)
             delay(1000L)
             seconds++
