@@ -5,6 +5,9 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun BookListScreenContent(modifier: Modifier = Modifier) {
+fun BookListScreenContent(
+    uiState: BookListUIState,
+    onClick:(String)->Unit,
+) {
 
 }
