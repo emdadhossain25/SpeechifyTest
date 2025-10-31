@@ -1,8 +1,15 @@
 package com.example.speechifytest.data.repository
 
+import android.content.Context
 import com.example.speechifytest.data.model.Book
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BookRepositoryImpl: IBookRepository{
+@Singleton
+class BookRepositoryImpl @Inject constructor(
+    @ApplicationContext context: Context
+) : IBookRepository {
     override suspend fun getAllBooks(): Result<List<Book>> {
         TODO("Not yet implemented")
     }

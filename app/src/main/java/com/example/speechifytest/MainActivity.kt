@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.speechifytest.data.model.Book
+import com.example.speechifytest.ui.booklist.BookListScreen
 import com.example.speechifytest.ui.theme.SpeechifyTestTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +19,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SpeechifyTestTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    BookListScreen()
+                }
             }
         }
     }
