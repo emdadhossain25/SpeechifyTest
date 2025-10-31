@@ -2,15 +2,19 @@ package com.example.speechifytest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.inc
+import javax.inject.Inject
 
-class ScreenRecordingViewModel : ViewModel() {
+
+@HiltViewModel
+class ScreenRecordingViewModel @Inject constructor(
+
+) : ViewModel() {
     val _recordingScreenUIState: MutableStateFlow<RecordingScreenUIState> =
         MutableStateFlow(RecordingScreenUIState.Idle)
     var recordingScreenUIState = _recordingScreenUIState.asStateFlow()

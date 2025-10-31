@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun RecordingScreen(
-    viewModel: ScreenRecordingViewModel = viewModel()
+fun RecordingScreen (
+    viewModel: ScreenRecordingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.recordingScreenUIState.collectAsState()
 
