@@ -15,19 +15,19 @@ class NoteRepositoryImpl @Inject constructor() : INoteRepository {
         }
     }
 
-    override suspend fun delete(note: Note): Result<Unit> {
+    override suspend fun delete(note: Note): Result<List<Note>> {
         try {
             noteList.remove(note)
-            return Result.success(Unit)
+            return Result.success(noteList)
         } catch (e: Exception) {
             return Result.failure(e)
         }
     }
 
-    override suspend fun add(note: Note): Result<Unit> {
+    override suspend fun add(note: Note): Result<List<Note>> {
         try {
             noteList.add(note)
-            return Result.success(Unit)
+            return Result.success(noteList)
         } catch (e: Exception) {
             return Result.failure(e)
         }
