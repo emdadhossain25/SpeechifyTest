@@ -1,6 +1,6 @@
-package com.example.speechifytest.data.repository
+package com.example.speechifytest.data.repository.item
 
-import com.example.speechifytest.data.model.Item
+import com.example.speechifytest.data.model.item.Item
 
 interface IItemRespository {
     suspend fun add(item: Item): Result<Unit>

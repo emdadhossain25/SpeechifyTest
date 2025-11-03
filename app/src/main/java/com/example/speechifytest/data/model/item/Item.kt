@@ -1,4 +1,4 @@
-package com.example.speechifytest.data.model
+package com.example.speechifytest.data.model.item
 
 data class Item(
     val id:String,

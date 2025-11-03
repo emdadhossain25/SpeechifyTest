@@ -1,6 +1,6 @@
-package com.example.speechifytest.data.repository
+package com.example.speechifytest.data.repository.item
 
-import com.example.speechifytest.data.model.Item
+import com.example.speechifytest.data.model.item.Item
 import javax.inject.Inject
 import javax.inject.Singleton
 
