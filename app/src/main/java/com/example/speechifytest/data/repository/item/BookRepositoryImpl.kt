@@ -5,7 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ItemRepositoryImpl @Inject constructor() : IItemRespository {
+class BookRepositoryImpl @Inject constructor() : IBookRespository {
 
     var itemList = mutableListOf<Item>()
 
